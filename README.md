@@ -1,70 +1,146 @@
-# Getting Started with Create React App
+TP9 : Client React pour API REST
+Description
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Ce projet consiste à créer un client React qui consomme une API REST Spring Boot. L'application permet de :
 
-## Available Scripts
+Afficher la liste des comptes disponibles
 
-In the project directory, you can run:
+Ajouter un nouveau compte via un formulaire
 
-### `npm start`
+Visualiser les informations d’un compte (ID, solde, date de création, type)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Le backend est exposé sur http://localhost:8083/banque et le frontend sur http://localhost:3000.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Prérequis
 
-### `npm test`
+Node.js et npm installés
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Java JDK 17 ou supérieur
 
-### `npm run build`
+Maven pour exécuter le backend Spring Boot
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+IDE ou éditeur de code (VS Code, IntelliJ, etc.)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Installation et exécution
+Backend (Spring Boot)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Cloner le dépôt backend :
 
-### `npm run eject`
+git clone <URL_DE_TON_BACKEND>
+cd ms-banque
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Lancer le projet avec Maven :
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+mvn spring-boot:run
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+Vérifier que l’API fonctionne :
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Liste des comptes : http://localhost:8083/banque/comptes
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Exemple de réponse JSON :
 
-### Code Splitting
+[
+  {"id":1,"solde":8000.0,"dateCreation":"2025-11-06","type":"COURANT"},
+  {"id":2,"solde":12500.0,"dateCreation":"2025-11-06","type":"EPARGNE"},
+  {"id":3,"solde":9800.0,"dateCreation":"2025-11-06","type":"COURANT"}
+]
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Frontend (React)
 
-### Analyzing the Bundle Size
+Créer le projet React ou récupérer le dépôt :
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+npx create-react-app compte-client
+cd compte-client
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Installer les dépendances :
 
-### Advanced Configuration
+npm install axios bootstrap
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+Ajouter Bootstrap dans src/index.js :
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Créer src/config.js :
+
+const API_BASE_URL = "http://localhost:8083/banque";
+export default API_BASE_URL;
+
+
+Créer les composants CompteList.js et CompteForm.js dans src/components/
+
+CompteList.js : affichage de la liste des comptes
+
+CompteForm.js : formulaire pour ajouter un compte
+
+Modifier src/App.js :
+
+import React from 'react';
+import CompteList from './components/CompteList';
+import CompteForm from './components/CompteForm';
+
+function App() {
+  return (
+    <div className="container mt-4">
+      <CompteForm />
+      <CompteList />
+    </div>
+  );
+}
+
+export default App;
+
+
+Lancer le frontend :
+
+npm start
+
+
+L’application sera disponible sur http://localhost:3000.
+
+Fonctionnalités
+
+Liste des comptes : affichage dynamique via axios.get()
+
+Ajout de compte : formulaire contrôlé avec useState et axios.post()
+
+Consommation API : gestion JSON/XML selon les en-têtes HTTP Accept et Content-Type
+
+Organisation du projet
+compte-client/
+├─ src/
+│  ├─ components/
+│  │  ├─ CompteList.js
+│  │  └─ CompteForm.js
+│  ├─ config.js
+│  └─ App.js
+├─ package.json
+└─ README.md
+
+Captures d’écran
+Liste des comptes
+
+Formulaire d’ajout
+
+Notes
+
+Vérifier que le backend est lancé avant le frontend pour éviter les erreurs CORS ou 404
+
+Pour corriger les problèmes de CORS, ajouter dans Spring Boot :
+
+@Bean
+public WebMvcConfigurer corsConfigurer() {
+    return new WebMvcConfigurer() {
+        @Override
+        public void addCorsMappings(CorsRegistry registry) {
+            registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+        }
+    };
+}
+
+
+Les dates sont automatiquement initialisées lors de la création des comptes
