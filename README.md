@@ -1,5 +1,7 @@
 🧪 TP9 : Client React pour API REST
+
 📝 Description
+
 Ce projet consiste à développer un client React qui consomme une API REST développée avec Spring Boot. L'application permet :
 
 🧾 D'afficher la liste des comptes disponibles
@@ -13,6 +15,7 @@ Backend : http://localhost:8083/banque
 Frontend : http://localhost:3000
 
 ⚙️ Prérequis
+
 Node.js et npm installés
 
 Java JDK 17 ou supérieur
@@ -22,14 +25,18 @@ Maven pour exécuter le backend Spring Boot
 IDE ou éditeur de code (VS Code, IntelliJ, etc.)
 
 🚀 Installation et Exécution
+
 🔧 Backend (Spring Boot)
+
 Cloner le dépôt :
+
 git clone <URL_DE_TON_BACKEND>
 cd ms-banque
 Lancer le projet :
 
 
 mvn spring-boot:run
+
 Vérifier le bon fonctionnement de l’API :
 
 Liste des comptes : http://localhost:8083/banque/comptes
@@ -49,20 +56,25 @@ Créer le projet ou cloner le dépôt :
 
 
 npx create-react-app compte-client
+
 cd compte-client
+
 Installer les dépendances :
 
 
 npm install axios bootstrap
+
 Ajouter Bootstrap dans src/index.js :
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 Créer le fichier src/config.js :
 
 
 const API_BASE_URL = "http://localhost:8083/banque";
 export default API_BASE_URL;
+
 Créer les composants dans src/components/ :
 
 CompteList.js : affichage de la liste des comptes
@@ -86,8 +98,9 @@ function App() {
 }
 
 export default App;
-Lancer le frontend :
 
+
+Lancer le frontend :
 
 npm start
 
